@@ -1,22 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic Meta Tags -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Image to PDF</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Image to PDF Converter | JPG to PDF Tool Online</title>
+  <meta name="description" content="Convert JPG images to PDF easily with our free online tool. Fast, secure & easy-to-use JPG to PDF converter - no sign-up required.">
+  <meta name="keywords" content="Image to PDF, JPG to PDF, PNG to PDF, Online converter, Free tool">
+  <meta name="robots" content="index, follow">
 
-  <!-- ✅ Favicon added -->
+  <!-- Open Graph Tags for Social Sharing -->
+  <meta property="og:title" content="Free JPG to PDF Converter - Image to PDF Online">
+  <meta property="og:description" content="Easily convert JPG images into a single PDF file online. Drag & drop supported. No registration needed.">
+  <meta property="og:image" content="https://www.mychoose.online/preview.jpg">
+  <meta property="og:url" content="https://www.mychoose.online">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Convert JPG to PDF - Free Online Tool">
+  <meta name="twitter:description" content="Fast, free, and secure image to PDF converter. Upload JPG or PNG and convert in 1 click.">
+  <meta name="twitter:image" content="https://www.mychoose.online/preview.jpg">
+
+  <!-- Favicon -->
   <link rel="icon" href="/favicon.png" type="image/png" />
 
+  <!-- Fonts & CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div class="container">
-    <h1>Image to PDF Converter</h1>
-    <input type="file" id="fileInput" multiple accept="image/*" />
-    <button onclick="generatePDF()">Convert to PDF</button>
+  <div class="wrapper">
+    <h1>JPG to PDF Converter</h1>
+    <p class="sub-text">Select JPG or PNG images and convert them to PDF instantly</p>
+
+    <div class="upload-area" id="uploadArea">
+      <p>Drag & drop images here or <label for="fileInput" class="browse-btn">browse</label></p>
+      <input type="file" id="fileInput" multiple accept="image/jpeg,image/png,image/webp" hidden />
+    </div>
+
+    <div id="preview" class="preview-grid"></div>
+
+    <button class="convert-btn" onclick="generatePDF()">Convert to PDF</button>
   </div>
 
+  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
