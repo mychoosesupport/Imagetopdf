@@ -1,29 +1,50 @@
-async function generatePDF() {
-  const { jsPDF } = window.jspdf;
-  const input = document.getElementById("fileInput");
-  if (!input.files.length) return alert("Please select images");
+import { jsPDF } from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 
-  const pdf = new jsPDF();
+window.generatePDF = async function () {
+  const input = document.getElementById("fileInput");
+  if (input.files.length === 0) {
+    alert("Please select at least one image.");
+    return;
+  }
+
+  const pdf = new jsPDF(); // Portrait, A4 by default
+  let firstPage = true;
+
   for (let i = 0; i < input.files.length; i++) {
     const file = input.files[i];
-    const imgData = await toDataURL(URL.createObjectURL(file));
-    if (i > 0) pdf.addPage();
-    pdf.addImage(imgData, "JPEG", 15, 15, 180, 160);
+
+    const imgData = await readFileAsDataURL(file);
+    const image = await loadImage(imgData);
+
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    if (!firstPage) {
+      pdf.addPage();
+    } else {
+      firstPage = false;
+    }
+
+    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
   }
+
   pdf.save("converted.pdf");
+};
+
+// Helper functions
+function readFileAsDataURL(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.readAsDataURL(file);
+  });
 }
 
-function toDataURL(url) {
+function loadImage(src) {
   return new Promise((resolve) => {
     const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = this.width;
-      canvas.height = this.height;
-      canvas.getContext("2d").drawImage(this, 0, 0);
-      resolve(canvas.toDataURL("image/jpeg"));
-    };
-    img.src = url;
+    img.onload = () => resolve(img);
+    img.src = src;
   });
 }
